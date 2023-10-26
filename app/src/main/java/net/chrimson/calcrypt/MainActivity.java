@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private enum Op {
-        ADD, SUB, MUL, DIV, MOD, POW, NON, GCD
+        ADD, SUB, MUL, DIV, MOD, POW, NON, GCD, PHI
     }
     private Op op;
 
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonEqual = findViewById(R.id.equal);
         Button buttonModulo = findViewById(R.id.modulo);
         Button buttonGcd = findViewById(R.id.gcd);
+        Button buttonPhi = findViewById(R.id.phi);
 
         button0.setOnClickListener(view -> inputDisplay.setText(String.format("%s0", inputDisplay.getText())));
         button1.setOnClickListener(view -> inputDisplay.setText(String.format("%s1", inputDisplay.getText())));
@@ -98,6 +99,14 @@ public class MainActivity extends AppCompatActivity {
             op = Op.GCD;
             //noinspection SpellCheckingInspection
             outputDisplay.setText(String.format("%sgcd", firstValue));
+            inputDisplay.setText(null);
+        });
+
+        buttonPhi.setOnClickListener(view -> {
+            allCalculations();
+            op = Op.PHI;
+            //noinspection SpellCheckingInspection
+            outputDisplay.setText(String.format("%sphi", firstValue));
             inputDisplay.setText(null);
         });
 
@@ -159,6 +168,9 @@ public class MainActivity extends AppCompatActivity {
                 case GCD:
                     firstValue = gcd((int)this.firstValue, (int)secondValue);
                     break;
+                case PHI:
+                    firstValue = phi((int)this.firstValue, (int)secondValue);
+                    break;
             }
         } else {
             try {
@@ -175,5 +187,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return gcd(b % a, a);
         }
-    } 
+    }
+
+    int phi(int a, int b) {
+        int p = 0;
+        for (int n = 1; n <= a - 1; n ++) {
+            if (gcd(n, a) == 1) {
+                p ++;
+            }
+        }
+
+        return p;
+    }
+
 }
