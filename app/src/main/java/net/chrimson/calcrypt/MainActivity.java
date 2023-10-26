@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private enum Op {
-        ADD, SUB, MUL, DIV, MOD, POW, NON
+        ADD, SUB, MUL, DIV, MOD, POW, NON, GCD
     }
     private Op op;
 
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonPower = findViewById(R.id.power);
         Button buttonEqual = findViewById(R.id.equal);
         Button buttonModulo = findViewById(R.id.modulo);
+        Button buttonGcd = findViewById(R.id.gcd);
 
         button0.setOnClickListener(view -> inputDisplay.setText(String.format("%s0", inputDisplay.getText())));
         button1.setOnClickListener(view -> inputDisplay.setText(String.format("%s1", inputDisplay.getText())));
@@ -89,6 +90,14 @@ public class MainActivity extends AppCompatActivity {
             op = Op.MOD;
             //noinspection SpellCheckingInspection
             outputDisplay.setText(String.format("%smod", firstValue));
+            inputDisplay.setText(null);
+        });
+
+        buttonGcd.setOnClickListener(view -> {
+            allCalculations();
+            op = Op.GCD;
+            //noinspection SpellCheckingInspection
+            outputDisplay.setText(String.format("%sgcd", firstValue));
             inputDisplay.setText(null);
         });
 
@@ -147,6 +156,9 @@ public class MainActivity extends AppCompatActivity {
                 case POW:
                     firstValue = Math.pow(this.firstValue, secondValue);
                     break;
+                case GCD:
+                    firstValue = gcd((int)this.firstValue, (int)secondValue);
+                    break;
             }
         } else {
             try {
@@ -156,4 +168,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    int gcd(int a, int b) {
+        if (a == 0) {
+            return b;
+        } else {
+            return gcd(b % a, a);
+        }
+    } 
 }

@@ -18,8 +18,8 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="t1"
-            android:id="@+id/tmp1"
+            android:text="gcd"
+            android:id="@+id/gcd"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
