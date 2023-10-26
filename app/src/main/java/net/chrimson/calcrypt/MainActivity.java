@@ -7,13 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
-    private static final char ADDITION = '+';
-    private static final char SUBTRACTION = '-';
-    private static final char MULTIPLICATION = '*';
-    private static final char DIVISION = '/';
-    private static final char PERCENT = '%';
+    private enum Op {
+        ADD, SUB, MUL, DIV, MOD, POW, NON
+    }
+    private Op op;
 
-    private char currentSymbol;
     private double firstValue = Double.NaN;
     private double secondValue;
     private TextView inputDisplay, outputDisplay;
@@ -45,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         Button buttonDot = findViewById(R.id.btnPoint);
         Button buttonMultiply = findViewById(R.id.multiply);
         Button buttonClear = findViewById(R.id.clear);
-        Button buttonOFF = findViewById(R.id.off);
+        Button buttonPower = findViewById(R.id.power);
         Button buttonEqual = findViewById(R.id.equal);
-        Button buttonPercent = findViewById(R.id.percent);
+        Button buttonModulo = findViewById(R.id.modulo);
 
         button0.setOnClickListener(view -> inputDisplay.setText(String.format("%s0", inputDisplay.getText())));
         button1.setOnClickListener(view -> inputDisplay.setText(String.format("%s1", inputDisplay.getText())));
@@ -62,36 +60,44 @@ public class MainActivity extends AppCompatActivity {
 
         buttonAdd.setOnClickListener(view -> {
             allCalculations();
-            currentSymbol = ADDITION;
+            op = Op.ADD;
             outputDisplay.setText(String.format("%s+", decimalFormat.format(firstValue)));
             inputDisplay.setText(null);
         });
 
         buttonSub.setOnClickListener(view -> {
             allCalculations();
-            currentSymbol = SUBTRACTION;
+            op = Op.SUB;
             outputDisplay.setText(String.format("%s-", decimalFormat.format(firstValue)));
             inputDisplay.setText(null);
         });
 
         buttonMultiply.setOnClickListener(view -> {
             allCalculations();
-            currentSymbol = MULTIPLICATION;
+            op = Op.MUL;
             outputDisplay.setText(String.format("%sx", decimalFormat.format(firstValue)));
             inputDisplay.setText(null);
         });
 
         buttonDivide.setOnClickListener(view -> {
             allCalculations();
-            currentSymbol = DIVISION;
-            outputDisplay.setText(String.format("%s/", decimalFormat.format(firstValue)));
+            op = Op.DIV;
+            outputDisplay.setText(String.format("%s÷", decimalFormat.format(firstValue)));
             inputDisplay.setText(null);
         });
 
-        buttonPercent.setOnClickListener(view -> {
+        buttonModulo.setOnClickListener(view -> {
             allCalculations();
-            currentSymbol = PERCENT;
-            outputDisplay.setText(String.format("%sMOD", decimalFormat.format(firstValue)));
+            op = Op.MOD;
+            //noinspection SpellCheckingInspection
+            outputDisplay.setText(String.format("%smod", decimalFormat.format(firstValue)));
+            inputDisplay.setText(null);
+        });
+
+        buttonPower.setOnClickListener(view -> {
+            allCalculations();
+            op = Op.POW;
+            outputDisplay.setText(String.format("%s^", decimalFormat.format(firstValue)));
             inputDisplay.setText(null);
         });
 
@@ -109,13 +115,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        buttonOFF.setOnClickListener(view -> finish());
-
         buttonEqual.setOnClickListener(view -> {
             allCalculations();
             outputDisplay.setText(decimalFormat.format(firstValue));
             firstValue = Double.NaN;
-            currentSymbol = '0';
+            op = Op.NON;
         });
     }
 
@@ -124,16 +128,26 @@ public class MainActivity extends AppCompatActivity {
             secondValue = Double.parseDouble(inputDisplay.getText().toString());
             inputDisplay.setText(null);
 
-            if (currentSymbol == ADDITION)
-                firstValue = this.firstValue + secondValue;
-            else if (currentSymbol == SUBTRACTION)
-                firstValue = this.firstValue - secondValue;
-            else if (currentSymbol == MULTIPLICATION)
-                firstValue = this.firstValue * secondValue;
-            else if (currentSymbol == DIVISION)
-                firstValue = this.firstValue / secondValue;
-            else if (currentSymbol == PERCENT)
-                firstValue = this.firstValue % secondValue;
+            switch (op) {
+                case ADD:
+                    firstValue = this.firstValue + secondValue;
+                    break;
+                case SUB:
+                    firstValue = this.firstValue - secondValue;
+                    break;
+                case MUL:
+                    firstValue = this.firstValue * secondValue;
+                    break;
+                case DIV:
+                    firstValue = this.firstValue / secondValue;
+                    break;
+                case MOD:
+                    firstValue = this.firstValue % secondValue;
+                    break;
+                case POW:
+                    firstValue = Math.pow(this.firstValue, secondValue);
+                    break;
+            }
         } else {
             try {
                 firstValue = Double.parseDouble(inputDisplay.getText().toString());
