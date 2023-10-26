@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
     private enum Op {
@@ -15,14 +14,12 @@ public class MainActivity extends AppCompatActivity {
     private double firstValue = Double.NaN;
     private double secondValue;
     private TextView inputDisplay, outputDisplay;
-    private DecimalFormat decimalFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        decimalFormat = new DecimalFormat("#.##########");
         inputDisplay = findViewById(R.id.input);
         outputDisplay = findViewById(R.id.output);
 
@@ -43,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonDot = findViewById(R.id.btnPoint);
         Button buttonMultiply = findViewById(R.id.multiply);
         Button buttonClear = findViewById(R.id.clear);
+        Button buttonBack = findViewById(R.id.back);
         Button buttonPower = findViewById(R.id.power);
         Button buttonEqual = findViewById(R.id.equal);
         Button buttonModulo = findViewById(R.id.modulo);
@@ -61,28 +59,28 @@ public class MainActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(view -> {
             allCalculations();
             op = Op.ADD;
-            outputDisplay.setText(String.format("%s+", decimalFormat.format(firstValue)));
+            outputDisplay.setText(String.format("%s+", firstValue));
             inputDisplay.setText(null);
         });
 
         buttonSub.setOnClickListener(view -> {
             allCalculations();
             op = Op.SUB;
-            outputDisplay.setText(String.format("%s-", decimalFormat.format(firstValue)));
+            outputDisplay.setText(String.format("%s-", firstValue));
             inputDisplay.setText(null);
         });
 
         buttonMultiply.setOnClickListener(view -> {
             allCalculations();
             op = Op.MUL;
-            outputDisplay.setText(String.format("%sx", decimalFormat.format(firstValue)));
+            outputDisplay.setText(String.format("%sx", firstValue));
             inputDisplay.setText(null);
         });
 
         buttonDivide.setOnClickListener(view -> {
             allCalculations();
             op = Op.DIV;
-            outputDisplay.setText(String.format("%s÷", decimalFormat.format(firstValue)));
+            outputDisplay.setText(String.format("%s÷", firstValue));
             inputDisplay.setText(null);
         });
 
@@ -90,34 +88,36 @@ public class MainActivity extends AppCompatActivity {
             allCalculations();
             op = Op.MOD;
             //noinspection SpellCheckingInspection
-            outputDisplay.setText(String.format("%smod", decimalFormat.format(firstValue)));
+            outputDisplay.setText(String.format("%smod", firstValue));
             inputDisplay.setText(null);
         });
 
         buttonPower.setOnClickListener(view -> {
             allCalculations();
             op = Op.POW;
-            outputDisplay.setText(String.format("%s^", decimalFormat.format(firstValue)));
+            outputDisplay.setText(String.format("%s^", firstValue));
             inputDisplay.setText(null);
         });
 
         buttonDot.setOnClickListener(view -> inputDisplay.setText(String.format("%s.", inputDisplay.getText())));
 
         buttonClear.setOnClickListener(view -> {
+            firstValue = Double.NaN;
+            secondValue = Double.NaN;
+            inputDisplay.setText("");
+            outputDisplay.setText("");
+        });
+
+        buttonBack.setOnClickListener(view -> {
             if (inputDisplay.getText().length() > 0) {
                 CharSequence currentText = inputDisplay.getText();
                 inputDisplay.setText(currentText.subSequence(0, currentText.length() - 1));
-            } else {
-                firstValue = Double.NaN;
-                secondValue = Double.NaN;
-                inputDisplay.setText("");
-                outputDisplay.setText("");
             }
         });
 
         buttonEqual.setOnClickListener(view -> {
             allCalculations();
-            outputDisplay.setText(decimalFormat.format(firstValue));
+            outputDisplay.setText(String.valueOf(firstValue));
             firstValue = Double.NaN;
             op = Op.NON;
         });
