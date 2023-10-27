@@ -136,12 +136,13 @@ public class MainActivity extends AppCompatActivity {
         buttonEqual.setOnClickListener(view -> {
             allCalculations();
             outputDisplay.setText(String.valueOf(firstValue));
+            inputDisplay.setText(String.valueOf(firstValue));
             firstValue = Double.NaN;
             op = Op.NON;
         });
     }
 
-    private void allCalculations(){
+    private void allCalculations() {
         if (!Double.isNaN(firstValue)) {
             secondValue = Double.parseDouble(inputDisplay.getText().toString());
             inputDisplay.setText(null);
