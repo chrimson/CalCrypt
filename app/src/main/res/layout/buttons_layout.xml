@@ -150,8 +150,8 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="="
-            android:id="@+id/equ"
+            android:text="ent"
+            android:id="@+id/ent"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
     </TableRow>
