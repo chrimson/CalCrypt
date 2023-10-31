@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnDiv = findViewById(R.id.div);
         Button btnMod = findViewById(R.id.mod);
         Button btnPow = findViewById(R.id.pow);
+        Button btnFac = findViewById(R.id.fac);
+        Button btnSqt = findViewById(R.id.sqt);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -97,17 +99,21 @@ public class MainActivity extends AppCompatActivity {
             display.append("9");
         });
         btnPnt.setOnClickListener(view -> {
-            valueText += ".";
-            display.append(".");
+            if (!valueText.contains(".")) {
+                valueText += ".";
+                display.append(".");
+            }
         });
         //endregion
 
-        btnAdd.setOnClickListener(view -> operate("+"));
-        btnSub.setOnClickListener(view -> operate("-"));
-        btnMul.setOnClickListener(view -> operate("*"));
-        btnDiv.setOnClickListener(view -> operate("/"));
-        btnMod.setOnClickListener(view -> operate("mod"));
-        btnPow.setOnClickListener(view -> operate("^"));
+        btnAdd.setOnClickListener(view -> operateTwo("+"));
+        btnSub.setOnClickListener(view -> operateTwo("-"));
+        btnMul.setOnClickListener(view -> operateTwo("*"));
+        btnDiv.setOnClickListener(view -> operateTwo("/"));
+        btnMod.setOnClickListener(view -> operateTwo("mod"));
+        btnPow.setOnClickListener(view -> operateTwo("^"));
+        btnFac.setOnClickListener(view -> operateOne("!"));
+        btnSqt.setOnClickListener(view -> operateOne("sqt"));
 
         btnClr.setOnClickListener(view -> {
             String text = display.getText().toString();
@@ -142,21 +148,43 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void operate(String op) {
+
+    private void operateOne(String op) {
         this.op = op;
 
         if (values.size() == 0) {
             if (valueText.length() > 0) {
                 values.add(Double.parseDouble(valueText));
                 valueText = "";
-
-                display.append(" " + op + " ");
             } else if (valueText.length() == 0) {
                 values.add(result);
-
                 display.append(String.valueOf(result));
-                display.append(" " + op + " ");
             }
+            display.append(" " + op + "\n");
+
+            result = result(op);
+            display.append(decimalFormat.format(result));
+            display.append("\n");
+
+            valueText = "";
+            this.op = "NON";
+            scroller.fullScroll(View.FOCUS_DOWN);
+        }
+    }
+
+    private void operateTwo(String op) {
+        this.op = op;
+
+        if (values.size() == 0) {
+            if (valueText.length() > 0) {
+                values.add(Double.parseDouble(valueText));
+                valueText = "";
+            } else if (valueText.length() == 0) {
+                values.add(result);
+                display.append(String.valueOf(result));
+            }
+
+            display.append(" " + op + " ");
         }
     }
 
@@ -181,6 +209,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "^":
                 temp = Math.pow(values.get(0), values.get(1));
+                break;
+            case "!":
+                temp = 1.0;
+                for (int factor = 2; factor <= values.get(0); factor ++) {
+                    temp *= factor;
+                }
+                break;
+            case "sqt":
+                temp = Math.sqrt(values.get(0));
                 break;
         }
 

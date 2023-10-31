@@ -15,18 +15,18 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="^"
-            android:id="@+id/pow"
-            android:layout_margin="1dp"
-            android:layout_weight="1"/>
-        <Button
             android:text="gcd"
             android:id="@+id/gcd"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="mod"
-            android:id="@+id/mod"
+            android:text="sqt"
+            android:id="@+id/sqt"
+            android:layout_margin="1dp"
+            android:layout_weight="1"/>
+        <Button
+            android:text="!"
+            android:id="@+id/fac"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
@@ -40,8 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <Button
-            android:text="phi"
-            android:id="@+id/phi"
+            android:text="mod"
+            android:id="@+id/mod"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
@@ -70,8 +70,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <Button
-            android:text="t3"
-            android:id="@+id/tmp3"
+            android:text="phi"
+            android:id="@+id/phi"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
@@ -145,8 +145,8 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="t6"
-            android:id="@+id/tmp6"
+            android:text="^"
+            android:id="@+id/pow"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
