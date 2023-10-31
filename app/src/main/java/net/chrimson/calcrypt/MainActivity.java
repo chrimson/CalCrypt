@@ -13,9 +13,9 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
     private String op;
-    private List<Double> values = new ArrayList<Double>();
+    private List<Long> values = new ArrayList<Long>();
     private String valueText;
-    private Double result;
+    private Long result;
     private TextView display;
     private ScrollView scroller;
     private DecimalFormat decimalFormat;
@@ -27,11 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
         scroller = findViewById(R.id.scroller);
         display = findViewById(R.id.display);
-        decimalFormat = new DecimalFormat("#.##########");
 
         op = "NON";
         valueText = "";
-        result = 0.0;
+        result = 0L;
 
         //region All Button IDs
         Button btn0 = findViewById(R.id.btn0);
@@ -54,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnPow = findViewById(R.id.pow);
         Button btnFac = findViewById(R.id.fac);
         Button btnSqt = findViewById(R.id.sqt);
+        Button btnGcd = findViewById(R.id.gcd);
+        Button btnPhi = findViewById(R.id.phi);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -110,10 +111,12 @@ public class MainActivity extends AppCompatActivity {
         btnSub.setOnClickListener(view -> operateTwo("-"));
         btnMul.setOnClickListener(view -> operateTwo("*"));
         btnDiv.setOnClickListener(view -> operateTwo("/"));
-        btnMod.setOnClickListener(view -> operateTwo("mod"));
         btnPow.setOnClickListener(view -> operateTwo("^"));
-        btnFac.setOnClickListener(view -> operateOne("!"));
         btnSqt.setOnClickListener(view -> operateOne("sqt"));
+        btnFac.setOnClickListener(view -> operateOne("!"));
+        btnPhi.setOnClickListener(view -> operateOne("phi"));
+        btnMod.setOnClickListener(view -> operateTwo("mod"));
+        btnGcd.setOnClickListener(view -> operateTwo("gcd"));
 
         btnClr.setOnClickListener(view -> {
             String text = display.getText().toString();
@@ -124,14 +127,13 @@ public class MainActivity extends AppCompatActivity {
             op = "NON";
             scroller.fullScroll(View.FOCUS_DOWN);
         });
-
         btnEnt.setOnClickListener(view -> {
             if (op != "NON") {
-                values.add(Double.parseDouble(valueText));
+                values.add(Long.parseLong(valueText));
                 display.append("\n");
 
                 result = result(op);
-                display.append(decimalFormat.format(result));
+                display.append(String.valueOf(result));
                 display.append("\n");
 
                 valueText = "";
@@ -148,13 +150,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void operateOne(String op) {
         this.op = op;
 
         if (values.size() == 0) {
             if (valueText.length() > 0) {
-                values.add(Double.parseDouble(valueText));
+                values.add(Long.parseLong(valueText));
                 valueText = "";
             } else if (valueText.length() == 0) {
                 values.add(result);
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             display.append(" " + op + "\n");
 
             result = result(op);
-            display.append(decimalFormat.format(result));
+            display.append(String.valueOf(result));
             display.append("\n");
 
             valueText = "";
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (values.size() == 0) {
             if (valueText.length() > 0) {
-                values.add(Double.parseDouble(valueText));
+                values.add(Long.parseLong(valueText));
                 valueText = "";
             } else if (valueText.length() == 0) {
                 values.add(result);
@@ -188,8 +189,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Double result(String op) {
-        Double temp = null;
+    private Long result(String op) {
+        Long temp = null;
 
         switch (op) {
             case "+":
@@ -208,16 +209,22 @@ public class MainActivity extends AppCompatActivity {
                 temp = values.get(0) % values.get(1);
                 break;
             case "^":
-                temp = Math.pow(values.get(0), values.get(1));
+                temp = (long) Math.pow(values.get(0), values.get(1));
                 break;
             case "!":
-                temp = 1.0;
-                for (int factor = 2; factor <= values.get(0); factor ++) {
+                temp = 1L;
+                for (int factor = 2; factor <= values.get(0); factor++) {
                     temp *= factor;
                 }
                 break;
             case "sqt":
-                temp = Math.sqrt(values.get(0));
+                temp = (long) Math.sqrt(values.get(0));
+                break;
+            case "gcd":
+                temp = gcd(values.get(0), values.get(1));
+                break;
+            case "phi":
+                temp = phi(values.get(0));
                 break;
         }
 
@@ -225,4 +232,34 @@ public class MainActivity extends AppCompatActivity {
         return temp;
     }
 
+    private Long gcd(Long a, Long b) {
+        Long r;
+        Long t = 0L;
+        t = a / b;
+        Long bb = a % b;
+
+        if (op == "gcd") {
+            display.append(a + " = " + t + " x " + b + " + " + bb + "\n");
+        }
+
+        if (bb != 0) {
+            r = gcd(b, bb);
+        } else {
+            r = b;
+        }
+
+        return r;
+    }
+
+    private Long phi(Long a) {
+        Long p = 0L;
+        for (Long n = 1L; n <= a - 1; n ++) {
+            display.append(n + ": gcd(" + n + ", " + a + ") = " + gcd(n, a) + "\n");
+            if (gcd(n, a) == 1) {
+                p ++;
+            }
+        }
+
+        return p;
+    }
 }

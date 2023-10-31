@@ -15,8 +15,8 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="gcd"
-            android:id="@+id/gcd"
+            android:text="mod"
+            android:id="@+id/mod"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
@@ -40,8 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <Button
-            android:text="mod"
-            android:id="@+id/mod"
+            android:text="gcd"
+            android:id="@+id/gcd"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
