@@ -11,12 +11,12 @@
         android:layout_height="match_parent">
         <Button
             android:text="C"
-            android:id="@+id/clear"
+            android:id="@+id/clr"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
             android:text="^"
-            android:id="@+id/power"
+            android:id="@+id/pow"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
@@ -26,12 +26,12 @@
             android:layout_weight="1"/>
         <Button
             android:text="mod"
-            android:id="@+id/modulo"
+            android:id="@+id/mod"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="÷"
-            android:id="@+id/division"
+            android:text="/"
+            android:id="@+id/div"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
     </TableRow>
@@ -60,8 +60,8 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="x"
-            android:id="@+id/multiply"
+            android:text="*"
+            android:id="@+id/mul"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
     </TableRow>
@@ -91,7 +91,7 @@
             android:layout_weight="1"/>
         <Button
             android:text="-"
-            android:id="@+id/subtract"
+            android:id="@+id/sub"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
     </TableRow>
@@ -141,12 +141,12 @@
             android:layout_weight="1"/>
         <Button
             android:text="."
-            android:id="@+id/btnPoint"
+            android:id="@+id/pnt"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="«"
-            android:id="@+id/back"
+            android:text="t6"
+            android:id="@+id/tmp6"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button

@@ -1,7 +1,6 @@
 package net.chrimson.calcrypt;
 
 import android.os.Bundle;
-//import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -10,31 +9,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
-    private enum Op {
-        ADD, SUB, MUL, DIV, MOD, POW, NON, GCD, PHI
-    }
-    private Op op;
-
+    private String op;
     private List<Double> values = new ArrayList<Double>();
     private String valueText;
+    private Double result;
     private TextView display;
     private ScrollView scroller;
+    private DecimalFormat decimalFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        valueText = "";
-        op = Op.NON;
-
         scroller = findViewById(R.id.scroller);
-
         display = findViewById(R.id.display);
+        decimalFormat = new DecimalFormat("#.##########");
 
-        //region Button Ids
+        op = "NON";
+        valueText = "";
+        result = 0.0;
+
+        //region All Button IDs
         Button btn0 = findViewById(R.id.btn0);
         Button btn1 = findViewById(R.id.btn1);
         Button btn2 = findViewById(R.id.btn2);
@@ -45,7 +44,14 @@ public class MainActivity extends AppCompatActivity {
         Button btn7 = findViewById(R.id.btn7);
         Button btn8 = findViewById(R.id.btn8);
         Button btn9 = findViewById(R.id.btn9);
+        Button btnPnt = findViewById(R.id.pnt);
+        Button btnClr = findViewById(R.id.clr);
         Button btnAdd = findViewById(R.id.add);
+        Button btnSub = findViewById(R.id.sub);
+        Button btnMul = findViewById(R.id.mul);
+        Button btnDiv = findViewById(R.id.div);
+        Button btnMod = findViewById(R.id.mod);
+        Button btnPow = findViewById(R.id.pow);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -90,21 +96,42 @@ public class MainActivity extends AppCompatActivity {
             valueText += "9";
             display.append("9");
         });
+        btnPnt.setOnClickListener(view -> {
+            valueText += ".";
+            display.append(".");
+        });
         //endregion
 
-        btnAdd.setOnClickListener(view -> {
-            op = Op.ADD;
-            values.add(Double.parseDouble(valueText));
-            display.append("+");
+        btnAdd.setOnClickListener(view -> operate("+"));
+        btnSub.setOnClickListener(view -> operate("-"));
+        btnMul.setOnClickListener(view -> operate("*"));
+        btnDiv.setOnClickListener(view -> operate("/"));
+        btnMod.setOnClickListener(view -> operate("mod"));
+        btnPow.setOnClickListener(view -> operate("^"));
+
+        btnClr.setOnClickListener(view -> {
+            String text = display.getText().toString();
+            display.setText(text.substring(0, text.lastIndexOf("\n") + 1));
+
+            values.clear();
             valueText = "";
+            op = "NON";
+            scroller.fullScroll(View.FOCUS_DOWN);
         });
 
         btnEnt.setOnClickListener(view -> {
-            values.add(Double.parseDouble(valueText));
+            if (op != "NON") {
+                values.add(Double.parseDouble(valueText));
+                display.append("\n");
 
-            valueText = "";
-            display.append("\n");
-            scroller.fullScroll(View.FOCUS_DOWN);
+                result = result(op);
+                display.append(decimalFormat.format(result));
+                display.append("\n");
+
+                valueText = "";
+                op = "NON";
+                scroller.fullScroll(View.FOCUS_DOWN);
+            }
         });
 
         scroller.post(new Runnable() {
@@ -114,4 +141,51 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void operate(String op) {
+        this.op = op;
+
+        if (values.size() == 0) {
+            if (valueText.length() > 0) {
+                values.add(Double.parseDouble(valueText));
+                valueText = "";
+
+                display.append(" " + op + " ");
+            } else if (valueText.length() == 0) {
+                values.add(result);
+
+                display.append(String.valueOf(result));
+                display.append(" " + op + " ");
+            }
+        }
+    }
+
+    private Double result(String op) {
+        Double temp = null;
+
+        switch (op) {
+            case "+":
+                temp = values.get(0) + values.get(1);
+                break;
+            case "-":
+                temp = values.get(0) - values.get(1);
+                break;
+            case "*":
+                temp = values.get(0) * values.get(1);
+                break;
+            case "/":
+                temp = values.get(0) / values.get(1);
+                break;
+            case "mod":
+                temp = values.get(0) % values.get(1);
+                break;
+            case "^":
+                temp = Math.pow(values.get(0), values.get(1));
+                break;
+        }
+
+        values.clear();
+        return temp;
+    }
+
 }
