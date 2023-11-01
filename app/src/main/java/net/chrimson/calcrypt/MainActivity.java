@@ -15,7 +15,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     //region Variables
     private String op;
-    private List<Long> values = new ArrayList<Long>();
+    private List<Long> values = new ArrayList<>();
     private String valueText;
     private Long result;
     private TextView display;
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnGcd = findViewById(R.id.gcd);
         Button btnSam = findViewById(R.id.sam);
         Button btnPhi = findViewById(R.id.phi);
+        Button btnOrd = findViewById(R.id.ord);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         btnSqt.setOnClickListener(view -> operateOne("sqt"));
         btnFac.setOnClickListener(view -> operateOne("!"));
         btnPhi.setOnClickListener(view -> operateOne("phi"));
+        btnOrd.setOnClickListener(view -> operateOne("ord"));
         btnMod.setOnClickListener(view -> operateTwo("mod"));
         btnGcd.setOnClickListener(view -> operateTwo("gcd"));
         btnSam.setOnClickListener(view -> operateMulti("sam"));
@@ -267,6 +269,9 @@ public class MainActivity extends AppCompatActivity {
             case "phi":
                 temp = phi(values.get(0));
                 break;
+            case "ord":
+                temp = ord(values.get(0));
+                break;
             case "sam":
                 temp = sam(values.get(0), values.get(1), values.get(2));
                 break;
@@ -344,6 +349,48 @@ public class MainActivity extends AppCompatActivity {
         display.append("\n");
 
         return p;
+    }
+
+    private Long ord(Long a) {
+        List<Long> z = new ArrayList<>();
+        List<Integer> o = new ArrayList<>();
+
+        for (Long n = 1L; n <= a - 1; n ++) {
+            display.append(n + ": gcd(" + n + ", " + a + ") = " + gcd(n, a) + "\n");
+            if (gcd(n, a) == 1) {
+                z.add(n);
+            }
+        }
+
+        display.append("Multi Group ");
+        for (Long i : z) {
+            display.append(i + " ");
+        }
+
+        int c = z.size();
+
+        display.append("\nPoss Orders ");
+        for (int n = 1; n <= c; n ++) {
+            if (c % n == 0) {
+                o.add(n);
+                display.append(n + " ");
+            }
+        }
+        display.append("\n");
+
+        for (Long e : z) {
+            for (Integer x : o) {
+                double m = Math.pow((double) e, (double) x) % a;
+                if (m == 1) {
+                    display.append("ord(" + e + ") = " + x + ", "
+                                   + e + "^" + x + " mod " + a + "\n");
+                    break;
+                }
+            }
+        }
+
+        display.append("Cardinality ");
+        return (long) c;
     }
 
 }

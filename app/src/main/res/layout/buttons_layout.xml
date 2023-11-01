@@ -15,8 +15,8 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="mod"
-            android:id="@+id/mod"
+            android:text="t1"
+            android:id="@+id/t1"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
@@ -27,6 +27,36 @@
         <Button
             android:text="!"
             android:id="@+id/fac"
+            android:layout_margin="1dp"
+            android:layout_weight="1"/>
+        <Button
+            android:text="^"
+            android:id="@+id/pow"
+            android:layout_margin="1dp"
+            android:layout_weight="1"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:text="mod"
+            android:id="@+id/mod"
+            android:layout_margin="1dp"
+            android:layout_weight="1"/>
+        <Button
+            android:text="mnv"
+            android:id="@+id/mnv"
+            android:layout_margin="1dp"
+            android:layout_weight="1"/>
+        <Button
+            android:text="t4"
+            android:id="@+id/t4"
+            android:layout_margin="1dp"
+            android:layout_weight="1"/>
+        <Button
+            android:text="t5"
+            android:id="@+id/t5"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
@@ -130,8 +160,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <Button
-            android:text="t6"
-            android:id="@+id/t6"
+            android:text="ord"
+            android:id="@+id/ord"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
@@ -145,8 +175,8 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="^"
-            android:id="@+id/pow"
+            android:text="t2"
+            android:id="@+id/t2"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
