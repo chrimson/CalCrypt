@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnFac = findViewById(R.id.fac);
         Button btnSqt = findViewById(R.id.sqt);
         Button btnGcd = findViewById(R.id.gcd);
-        Button btnPhi = findViewById(R.id.phi);
         Button btnSam = findViewById(R.id.sam);
+        Button btnPhi = findViewById(R.id.phi);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         btnPhi.setOnClickListener(view -> operateOne("phi"));
         btnMod.setOnClickListener(view -> operateTwo("mod"));
         btnGcd.setOnClickListener(view -> operateTwo("gcd"));
-        btnSam.setOnClickListener(view -> operateMult("sam"));
+        btnSam.setOnClickListener(view -> operateMulti("sam"));
         //endregion
 
         btnClr.setOnClickListener(view -> {
@@ -221,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void operateMult(String op) {
+    private void operateMulti(String op) {
         if (this.op == "NON" && values.size() == 0 && valueText.length() == 0) {
             this.op = op;
             display.append("x ^ e mod m OR sig(x) ^ b mod n\n");
@@ -294,18 +295,6 @@ public class MainActivity extends AppCompatActivity {
         return r;
     }
 
-    private Long phi(Long a) {
-        Long p = 0L;
-        for (Long n = 1L; n <= a - 1; n ++) {
-            display.append(n + ": gcd(" + n + ", " + a + ") = " + gcd(n, a) + "\n");
-            if (gcd(n, a) == 1) {
-                p ++;
-            }
-        }
-
-        return p;
-    }
-
     private Long sam(Long x, Long e, Long m) {
         Long y = 1L;
 
@@ -322,6 +311,39 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return y;
+    }
+
+    private Long phi(Long n) {
+        HashMap<Long, Integer> exp = new HashMap<>();
+
+        for (int i = 2; i <= Math.sqrt(n); i ++) {
+            int e = 0;
+            while (n % i == 0) {
+                display.append(i + " * ");
+                n = n / i;
+                e ++;
+                exp.put((long) i, e);
+            }
+        }
+
+        Integer l = exp.get(n);
+        if (l == null) {
+            exp.put(n, 1);
+        } else {
+            exp.put(n, l ++);
+        }
+        display.append(n + "\n");
+
+        Long p = 1L;
+        for (Long f : exp.keySet()) {
+            p = p * ((long) Math.pow((double) f, (double) exp.get(f)) -
+                     (long) Math.pow((double) f, (double) exp.get(f) - 1));
+            display.append("(" + f + "^" + exp.get(f) + " - " +
+                                 f + "^" + (exp.get(f) - 1) + ") ");
+        }
+        display.append("\n");
+
+        return p;
     }
 
 }
