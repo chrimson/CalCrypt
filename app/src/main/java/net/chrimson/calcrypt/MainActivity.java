@@ -1,5 +1,6 @@
 package net.chrimson.calcrypt;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,16 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
+    //region Variables
     private String op;
     private List<Long> values = new ArrayList<Long>();
     private String valueText;
     private Long result;
     private TextView display;
     private ScrollView scroller;
-    private DecimalFormat decimalFormat;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         scroller = findViewById(R.id.scroller);
         display = findViewById(R.id.display);
+        display.setTypeface(Typeface.MONOSPACE);
 
         op = "NON";
         valueText = "";
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnSqt = findViewById(R.id.sqt);
         Button btnGcd = findViewById(R.id.gcd);
         Button btnPhi = findViewById(R.id.phi);
+        Button btnMxp = findViewById(R.id.mxp);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         });
         //endregion
 
+        //region Operator Button Listeners
         btnAdd.setOnClickListener(view -> operateTwo("+"));
         btnSub.setOnClickListener(view -> operateTwo("-"));
         btnMul.setOnClickListener(view -> operateTwo("*"));
@@ -117,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
         btnPhi.setOnClickListener(view -> operateOne("phi"));
         btnMod.setOnClickListener(view -> operateTwo("mod"));
         btnGcd.setOnClickListener(view -> operateTwo("gcd"));
+        btnMxp.setOnClickListener(view -> operateMult("mxp"));
+        //endregion
 
         btnClr.setOnClickListener(view -> {
             String text = display.getText().toString();
@@ -129,16 +135,42 @@ public class MainActivity extends AppCompatActivity {
         });
         btnEnt.setOnClickListener(view -> {
             if (op != "NON") {
-                values.add(Long.parseLong(valueText));
-                display.append("\n");
+                if (op == "mxp") {
+                    values.add(Long.parseLong(valueText));
+                    display.append("\n");
 
-                result = result(op);
-                display.append(String.valueOf(result));
-                display.append("\n");
+                    valueText = "";
+                    scroller.fullScroll(View.FOCUS_DOWN);
 
-                valueText = "";
-                op = "NON";
-                scroller.fullScroll(View.FOCUS_DOWN);
+                    switch (values.size()) {
+                        case 1:
+                            display.append("e = ");
+                            break;
+                        case 2:
+                            display.append("m = ");
+                            break;
+                        case 3:
+                            result = result(op);
+                            display.append(String.valueOf(result));
+                            display.append("\n");
+
+                            op = "NON";
+                            values.clear();
+                            break;
+                    }
+
+                } else {
+                    values.add(Long.parseLong(valueText));
+                    display.append("\n");
+
+                    result = result(op);
+                    display.append(String.valueOf(result));
+                    display.append("\n");
+
+                    valueText = "";
+                    op = "NON";
+                    scroller.fullScroll(View.FOCUS_DOWN);
+                }
             }
         });
 
@@ -151,9 +183,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void operateOne(String op) {
-        this.op = op;
-
         if (values.size() == 0) {
+            this.op = op;
+
             if (valueText.length() > 0) {
                 values.add(Long.parseLong(valueText));
                 valueText = "";
@@ -174,9 +206,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void operateTwo(String op) {
-        this.op = op;
-
         if (values.size() == 0) {
+            this.op = op;
+
             if (valueText.length() > 0) {
                 values.add(Long.parseLong(valueText));
                 valueText = "";
@@ -186,6 +218,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
             display.append(" " + op + " ");
+        }
+    }
+
+    private void operateMult(String op) {
+        if (values.size() == 0 && valueText.length() == 0) {
+            this.op = op;
+            display.append("x ^ e mod m OR sig(x) ^ b mod n\n");
+            display.append("x = ");
         }
     }
 
@@ -226,6 +266,9 @@ public class MainActivity extends AppCompatActivity {
             case "phi":
                 temp = phi(values.get(0));
                 break;
+            case "mxp":
+                temp = mxp(values.get(0), values.get(1), values.get(2));
+                break;
         }
 
         values.clear();
@@ -262,4 +305,23 @@ public class MainActivity extends AppCompatActivity {
 
         return p;
     }
+
+    private Long mxp(Long x, Long e, Long m) {
+        Long y = 1L;
+
+        String b = Long.toBinaryString(e);
+        display.append("e = " + b + "b\n");
+        for (int n = 0; n < b.length(); n ++) {
+            display.append("SQR y = (" + y + " ^ 2) mod " + m + " = " + (y * y) + "\n");
+            y = (y * y) % m;
+
+            if (b.charAt(n) == '1') {
+                display.append("MUL y = (" + y + " * " +  x + ") mod " + m + " = " + (y * x) + "\n");
+                y = (y * x) % m;
+            }
+        }
+
+        return y;
+    }
+
 }
