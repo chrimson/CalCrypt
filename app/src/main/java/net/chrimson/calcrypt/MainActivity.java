@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnSqt = findViewById(R.id.sqt);
         Button btnGcd = findViewById(R.id.gcd);
         Button btnPhi = findViewById(R.id.phi);
-        Button btnMxp = findViewById(R.id.mxp);
+        Button btnSam = findViewById(R.id.sam);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         btnPhi.setOnClickListener(view -> operateOne("phi"));
         btnMod.setOnClickListener(view -> operateTwo("mod"));
         btnGcd.setOnClickListener(view -> operateTwo("gcd"));
-        btnMxp.setOnClickListener(view -> operateMult("mxp"));
+        btnSam.setOnClickListener(view -> operateMult("sam"));
         //endregion
 
         btnClr.setOnClickListener(view -> {
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         });
         btnEnt.setOnClickListener(view -> {
             if (op != "NON") {
-                if (op == "mxp") {
+                if (op == "sam") {
                     values.add(Long.parseLong(valueText));
                     display.append("\n");
 
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void operateOne(String op) {
-        if (values.size() == 0) {
+        if (this.op == "NON" && values.size() == 0) {
             this.op = op;
 
             if (valueText.length() > 0) {
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void operateTwo(String op) {
-        if (values.size() == 0) {
+        if (this.op == "NON" && values.size() == 0) {
             this.op = op;
 
             if (valueText.length() > 0) {
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void operateMult(String op) {
-        if (values.size() == 0 && valueText.length() == 0) {
+        if (this.op == "NON" && values.size() == 0 && valueText.length() == 0) {
             this.op = op;
             display.append("x ^ e mod m OR sig(x) ^ b mod n\n");
             display.append("x = ");
@@ -266,8 +266,8 @@ public class MainActivity extends AppCompatActivity {
             case "phi":
                 temp = phi(values.get(0));
                 break;
-            case "mxp":
-                temp = mxp(values.get(0), values.get(1), values.get(2));
+            case "sam":
+                temp = sam(values.get(0), values.get(1), values.get(2));
                 break;
         }
 
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
         return p;
     }
 
-    private Long mxp(Long x, Long e, Long m) {
+    private Long sam(Long x, Long e, Long m) {
         Long y = 1L;
 
         String b = Long.toBinaryString(e);
