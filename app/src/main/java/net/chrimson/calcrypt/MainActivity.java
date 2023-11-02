@@ -311,11 +311,11 @@ public class MainActivity extends AppCompatActivity {
         String b = Long.toBinaryString(e);
         display.append("e = " + b + "b\n");
         for (int n = 0; n < b.length(); n ++) {
-            display.append("SQR y = (" + y + " ^ 2) mod " + m + " = " + (y * y) + "\n");
+            display.append("SQR y = (" + y + " ^ 2) mod " + m + ", " + (y * y) + "\n");
             y = (y * y) % m;
 
             if (b.charAt(n) == '1') {
-                display.append("MUL y = (" + y + " * " +  x + ") mod " + m + " = " + (y * x) + "\n");
+                display.append("MUL y = (" + y + " * " +  x + ") mod " + m + ", " + (y * x) + "\n");
                 y = (y * x) % m;
             }
         }
@@ -369,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
             for (Long inv : z) {
                 if (nn * inv % a == 1) {
                     display.append("gcd(" + nn + ", " + a + ") = " + gcd(nn, a) + ", " + inv + "\n");
+                    break;
                 }
             }
         }
