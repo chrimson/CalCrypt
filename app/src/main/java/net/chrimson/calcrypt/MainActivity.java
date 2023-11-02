@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnPhi = findViewById(R.id.phi);
         Button btnOrd = findViewById(R.id.ord);
         Button btnMnv = findViewById(R.id.mnv);
+        Button btnRsa = findViewById(R.id.rsa);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         btnMul.setOnClickListener(view -> operateTwo("*"));
         btnDiv.setOnClickListener(view -> operateTwo("/"));
         btnPow.setOnClickListener(view -> operateTwo("^"));
+        btnRsa.setOnClickListener(view -> operateTwo("rsa"));
         btnSqt.setOnClickListener(view -> operateOne("sqt"));
         btnFac.setOnClickListener(view -> operateOne("!"));
         btnPhi.setOnClickListener(view -> operateOne("phi"));
@@ -268,6 +270,9 @@ public class MainActivity extends AppCompatActivity {
             case "gcd":
                 temp = gcd(values.get(0), values.get(1));
                 break;
+            case "rsa":
+                temp = rsa(values.get(0), values.get(1));
+                break;
             case "phi":
                 temp = phi(values.get(0));
                 break;
@@ -329,7 +334,9 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 2; i <= Math.sqrt(n); i ++) {
             int e = 0;
             while (n % i == 0) {
-                display.append(i + " * ");
+                if (op == "phi") {
+                    display.append(i + " * ");
+                }
                 n = n / i;
                 e ++;
                 exp.put((long) i, e);
@@ -342,7 +349,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             exp.put(n, l ++);
         }
-        display.append(n + "\n");
+        if (op == "phi") {
+            display.append(n + "\n");
+        }
 
         Long p = 1L;
         for (Long f : exp.keySet()) {
@@ -417,6 +426,33 @@ public class MainActivity extends AppCompatActivity {
 
         display.append("Cardinality ");
         return (long) c;
+    }
+
+    private Long rsa(Long p, Long q) {
+        Long[] pq = {p, q};
+        boolean[] prime = {true, true};
+
+        for (int i = 0; i <= 1; i ++) {
+            for (int divisor = 2; divisor <= Math.sqrt(pq[i]); divisor ++) {
+                if (pq[i] % divisor == 0) {
+                    prime[i] = false;
+                    break;
+                }
+            }
+        }
+        display.append("p prime " + prime[0] + "\n");
+        display.append("q prime " + prime[1] + "\n");
+        if (!prime[0] || !prime[1]) {
+            return null;
+        }
+
+        Long n = pq[0] * pq[1];
+        display.append("n = p * q = " + n + "\n");
+        display.append("e and d are chosen MNVs in phi\n");
+        display.append("encrypt y = x ^ e mod " + n + "\n");
+        display.append("decrypt x = y ^ d mod " + n + "\n");
+        display.append("phi(n) =");
+        return phi(n);
     }
 
 }
