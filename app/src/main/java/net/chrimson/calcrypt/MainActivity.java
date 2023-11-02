@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnOrd = findViewById(R.id.ord);
         Button btnMnv = findViewById(R.id.mnv);
         Button btnRsa = findViewById(R.id.rsa);
+        Button btnCrt = findViewById(R.id.crt);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -115,17 +116,18 @@ public class MainActivity extends AppCompatActivity {
         //endregion
 
         //region Operator Button Listeners
+        btnSqt.setOnClickListener(view -> operateOne("sqt"));
+        btnFac.setOnClickListener(view -> operateOne("!"));
+        btnPhi.setOnClickListener(view -> operateOne("phi"));
+        btnOrd.setOnClickListener(view -> operateOne("ord"));
+        btnMnv.setOnClickListener(view -> operateOne("mnv"));
+        btnCrt.setOnClickListener(view -> operateOne("crt"));
         btnAdd.setOnClickListener(view -> operateTwo("+"));
         btnSub.setOnClickListener(view -> operateTwo("-"));
         btnMul.setOnClickListener(view -> operateTwo("*"));
         btnDiv.setOnClickListener(view -> operateTwo("/"));
         btnPow.setOnClickListener(view -> operateTwo("^"));
         btnRsa.setOnClickListener(view -> operateTwo("rsa"));
-        btnSqt.setOnClickListener(view -> operateOne("sqt"));
-        btnFac.setOnClickListener(view -> operateOne("!"));
-        btnPhi.setOnClickListener(view -> operateOne("phi"));
-        btnOrd.setOnClickListener(view -> operateOne("ord"));
-        btnMnv.setOnClickListener(view -> operateOne("mnv"));
         btnMod.setOnClickListener(view -> operateTwo("mod"));
         btnGcd.setOnClickListener(view -> operateTwo("gcd"));
         btnSam.setOnClickListener(view -> operateMulti("sam"));
@@ -272,6 +274,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "rsa":
                 temp = rsa(values.get(0), values.get(1));
+                break;
+            case "crt":
+                temp = crt(values.get(0));
                 break;
             case "phi":
                 temp = phi(values.get(0));
@@ -453,6 +458,16 @@ public class MainActivity extends AppCompatActivity {
         display.append("decrypt x = y ^ d mod " + n + "\n");
         display.append("phi(n) =");
         return phi(n);
+    }
+
+    private Long crt(Long c) {
+        display.append("x = bi mod ni\n");
+        display.append("Ni = N / ni       N = n1 n2 n3\n");
+        display.append("Ni xi = 1 mod ni  (can mod reduce)\n");
+        display.append("NNi xi = 1 mod ni\n");
+        display.append("xi = mnv(ni)\n");
+        display.append("                  x = E(bi Ni xi) mod N\n");
+        return c;
     }
 
 }
