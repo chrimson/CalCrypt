@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnSam = findViewById(R.id.sam);
         Button btnPhi = findViewById(R.id.phi);
         Button btnOrd = findViewById(R.id.ord);
+        Button btnMnv = findViewById(R.id.mnv);
         Button btnEnt = findViewById(R.id.ent);
         //endregion
 
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         btnFac.setOnClickListener(view -> operateOne("!"));
         btnPhi.setOnClickListener(view -> operateOne("phi"));
         btnOrd.setOnClickListener(view -> operateOne("ord"));
+        btnMnv.setOnClickListener(view -> operateOne("mnv"));
         btnMod.setOnClickListener(view -> operateTwo("mod"));
         btnGcd.setOnClickListener(view -> operateTwo("gcd"));
         btnSam.setOnClickListener(view -> operateMulti("sam"));
@@ -272,6 +274,9 @@ public class MainActivity extends AppCompatActivity {
             case "ord":
                 temp = ord(values.get(0));
                 break;
+            case "mnv":
+                temp = mnv(values.get(0));
+                break;
             case "sam":
                 temp = sam(values.get(0), values.get(1), values.get(2));
                 break;
@@ -351,12 +356,32 @@ public class MainActivity extends AppCompatActivity {
         return p;
     }
 
+    private Long mnv(Long a) {
+        List<Long> z = new ArrayList<>();
+
+        for (Long n = 1L; n <= a - 1; n++) {
+            if (gcd(n, a) == 1) {
+                z.add(n);
+            }
+        }
+
+        for (Long nn : z) {
+            for (Long inv : z) {
+                if (nn * inv % a == 1) {
+                    display.append("gcd(" + nn + ", " + a + ") = " + gcd(nn, a) + ", " + inv + "\n");
+                }
+            }
+        }
+
+        return (long) z.size();
+    }
+
     private Long ord(Long a) {
         List<Long> z = new ArrayList<>();
         List<Integer> o = new ArrayList<>();
 
         for (Long n = 1L; n <= a - 1; n ++) {
-            display.append(n + ": gcd(" + n + ", " + a + ") = " + gcd(n, a) + "\n");
+            display.append("gcd(" + n + ", " + a + ") = " + gcd(n, a) + "\n");
             if (gcd(n, a) == 1) {
                 z.add(n);
             }

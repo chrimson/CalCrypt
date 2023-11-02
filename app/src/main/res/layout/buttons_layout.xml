@@ -15,8 +15,8 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="t1"
-            android:id="@+id/t1"
+            android:text="mnv"
+            android:id="@+id/mnv"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
@@ -45,8 +45,8 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="mnv"
-            android:id="@+id/mnv"
+            android:text="t1"
+            android:id="@+id/t1"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
