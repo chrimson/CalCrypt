@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnRsa = findViewById(R.id.rsa);
         Button btnCrt = findViewById(R.id.crt);
         Button btnEnt = findViewById(R.id.ent);
+        Button btnDs = findViewById(R.id.ds);
+        Button btnHsh = findViewById(R.id.hsh);
         //endregion
 
         //region Number Button Listeners
@@ -122,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         btnOrd.setOnClickListener(view -> operateOne("ord"));
         btnMnv.setOnClickListener(view -> operateOne("mnv"));
         btnCrt.setOnClickListener(view -> operateOne("crt"));
+        btnDs.setOnClickListener(view -> operateOne("ds"));
+        btnHsh.setOnClickListener(view -> operateOne("hsh"));
         btnAdd.setOnClickListener(view -> operateTwo("+"));
         btnSub.setOnClickListener(view -> operateTwo("-"));
         btnMul.setOnClickListener(view -> operateTwo("*"));
@@ -286,6 +290,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "mnv":
                 temp = mnv(values.get(0));
+                break;
+            case "ds":
+                temp = ds(values.get(0));
+                break;
+            case "hsh":
+                temp = hsh(values.get(0));
                 break;
             case "sam":
                 temp = sam(values.get(0), values.get(1), values.get(2));
@@ -467,6 +477,64 @@ public class MainActivity extends AppCompatActivity {
         display.append("NNi xi = 1 mod ni\n");
         display.append("xi = mnv(ni)\n");
         display.append("                  x = E(bi Ni xi) mod N\n");
+        return c;
+    }
+
+    private Long ds(Long c) {
+        display.append("only signer can produce ds\n");
+        display.append("cannot deny generating it (non-repudiation)\n");
+        display.append("everyone can verify signature authenticity\n");
+        display.append("no one can copy to different document\n");
+        display.append("public key solution\n");
+        display.append("verification requires message and signature\n" +
+                "    secret key signature,\n" +
+                "    message authentication code\n\n");
+        display.append("security servives\n" +
+                "1 confidentiality\n" +
+                "2 message authentication - sender is authentic,\n" +
+                "    but imposter can still create\n" +
+                "3 message integrity\n" +
+                "4 non-repudiation - sender cannot deny creation\n" +
+                "    only sender can create signature, so PKI\n\n");
+        display.append("existential forgery and padding\n" +
+                "oscar can generate valid message-signature pairs\n" +
+                "    but have no control of message content\n" +
+                "900 bits followed by 1, 122 0s, then 1\n\n");
+        display.append("dsa\n" +
+                "    choose prime p\n" +
+                "    find prime divisor q of p - 1\n" +
+                "    find element a with ord(a) = q\n" +
+                "    choose random d\n" +
+                "    B = a ^ d mod p\n" +
+                "    kpub = (p, q, a, B), kpriv = (d)\n" +
+                "  sign\n" +
+                "    r = (a ^ kE mod p) mod q\n" +
+                "    s = (h(x) + d * r) kE ^ -1 mod q\n" +
+                "  verify\n" +
+                "    w = s ^ -1 mod q\n" +
+                "    u1 = w * h(x) mod q\n" +
+                "    u2 = w * r mod q\n" +
+                "    v = (a^u1 * B^u2 mod p) mod q\n" +
+                "    v == r mod q\n");
+
+        return c;
+    }
+
+    private Long hsh(Long c) {
+        display.append("hash used for digital signatures, " +
+                "message authentication codes, key derivation, random number generators\n" +
+                "hash z is fingerprint or message digest of message x\n" +
+                "can be applied to messages of any size, " +
+                "small change input, large change output\n" +
+                "one-way, infeasible to find x1 != x2 where h(x1) = h(x2)\n\n" +
+                "rivest 1988 md2\n" +
+                "rivest 1990 md4\n" +
+                "rivest 1990 md5\n" +
+                "nsa 1992 sha0\n" +
+                "nsa 1995 sha1\n" +
+                "nsa 2000 sha2\n" +
+                "nist 2015 sha3 - hash 224, 256, 384, 512, matching ciphers 112, 128, 192, 256\n" +
+                "    faster than sha2, no license, decades");
         return c;
     }
 

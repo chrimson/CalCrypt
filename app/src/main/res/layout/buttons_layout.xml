@@ -20,13 +20,13 @@
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="t2"
-            android:id="@+id/t2"
+            android:text="ds"
+            android:id="@+id/ds"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
-            android:text="t5"
-            android:id="@+id/t5"
+            android:text="HSH"
+            android:id="@+id/hsh"
             android:layout_margin="1dp"
             android:layout_weight="1"/>
         <Button
