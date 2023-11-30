@@ -349,10 +349,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Long ecc(Long n) {
-        display.append("y^2 + a1 x y + a3 y = x^3 + a2 x^2 + a4 x + a6\n" +
+        display.append("y^2 + a1 x y + a3 y = x^3 + a2 x^2 + a4 x + a6\n\n" +
+
+                "z = y^2 => x^3 + a x + b mod p\n" +
+                "if z = 0, one point for x\n" +
+                "if z^(p - 1)/2 <> 1 mod p, no point\n" +
+                "y1 = z^(p + 1)/4 mod p\n" +
+                "y2 = -y1 mod p\n\n" +
+
                 "y^2 => x^3 + a x + b mod p\n" +
-                "s = (y2 - y1) (x2 - x1)^-1 mod p\n" +
-                "s = (3 x1^2 + a) (2 y1)^-1 mod p\n" +
+                "s = (y2 - y1) (x2 - x1)^-1 mod p, addition\n" +
+                "s = (3 x1^2 + a) (2 y1)^-1 mod p, doubling\n" +
                 "x3 = s^2 - x1 - x3 mod p\n" +
                 "y3 = s (x1 - x3) - y1 mod p\n");
 
