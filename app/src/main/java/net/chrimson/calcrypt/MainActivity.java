@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnEnt = findViewById(R.id.ent);
         Button btnDs = findViewById(R.id.ds);
         Button btnHsh = findViewById(R.id.hsh);
+        Button btnEcc = findViewById(R.id.ecc);
         //endregion
 
         //region Number Button Listeners
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         btnMod.setOnClickListener(view -> operateTwo("mod"));
         btnGcd.setOnClickListener(view -> operateTwo("gcd"));
         btnSam.setOnClickListener(view -> operateMulti("sam"));
+        btnEcc.setOnClickListener(view -> operateOne("ecc"));
         //endregion
 
         btnClr.setOnClickListener(view -> {
@@ -273,6 +275,9 @@ public class MainActivity extends AppCompatActivity {
             case "sqt":
                 temp = (long) Math.sqrt(values.get(0));
                 break;
+            case "ecc":
+                temp = ecc(values.get(0));
+                break;
             case "gcd":
                 temp = gcd(values.get(0), values.get(1));
                 break;
@@ -341,6 +346,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return y;
+    }
+
+    private Long ecc(Long n) {
+        display.append("y^2 + a1 x y + a3 y = x^3 + a2 x^2 + a4 x + a6\n" +
+                "y^2 => x^3 + a x + b mod p\n" +
+                "s = (y2 - y1) (x2 - x1)^-1 mod p\n" +
+                "s = (3 x1^2 + a) (2 y1)^-1 mod p\n" +
+                "x3 = s^2 - x1 - x3 mod p\n" +
+                "y3 = s (x1 - x3) - y1 mod p\n");
+
+        return n;
     }
 
     private Long phi(Long n) {
